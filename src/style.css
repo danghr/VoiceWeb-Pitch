@@ -1,0 +1,32 @@
+:root {
+  font-family: 'Avenir Next', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  color: #0F172A;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(186, 230, 253, 0.36), transparent 35%),
+    radial-gradient(circle at 82% 8%, rgba(254, 249, 195, 0.4), transparent 32%),
+    radial-gradient(circle at 80% 80%, rgba(191, 219, 254, 0.28), transparent 38%),
+    #F8FAFC;
+}
+
+button {
+  font-family: inherit;
+}
