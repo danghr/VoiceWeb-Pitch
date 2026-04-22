@@ -110,24 +110,28 @@ class AudioEngine {
     this.synth.triggerAttackRelease(freq, duration);
   }
 
-  async playNotes(noteNames, duration = 0.55, gapMs = 90) {
+  async playNotes(noteNames, duration = 0.55, gapMs = 90, onNote = null) {
     if (!Array.isArray(noteNames) || noteNames.length === 0) {
       return;
     }
 
     for (const note of noteNames) {
       if (note === null || note === undefined) {
+        if (typeof onNote === 'function') onNote(null);
         // 静音间隔，等待与正常音符相同的时长
         await new Promise((resolve) => {
           setTimeout(resolve, Math.max(50, duration * 1000 + gapMs));
         });
         continue;
       }
+      if (typeof onNote === 'function') onNote(note);
       await this.playNote(note, duration);
       await new Promise((resolve) => {
         setTimeout(resolve, Math.max(50, duration * 1000 + gapMs));
       });
     }
+    // 播放结束后清除高亮
+    if (typeof onNote === 'function') onNote(null);
   }
 
   detectPitch(buffer, sampleRate) {

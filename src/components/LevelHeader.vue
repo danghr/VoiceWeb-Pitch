@@ -26,8 +26,8 @@
           @change="$emit('toggle-vocal-mode', $event.target.checked ? 'high' : 'low')"
         />
         <span class="mode-track">
-          <span class="mode-left">低音域（C3-A3）</span>
-          <span class="mode-right">高音域（C4-A4）</span>
+          <span class="mode-left">低音域（C3-B3）</span>
+          <span class="mode-right">高音域（C4-B4）</span>
           <span class="mode-thumb"></span>
         </span>
       </label>

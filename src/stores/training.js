@@ -9,7 +9,7 @@ export const useTrainingStore = defineStore('training', {
     vocalMode: 'low',
     userRange: {
       low: 'C3',
-      high: 'A3',
+      high: 'B3',
     },
   }),
   getters: {
@@ -42,11 +42,11 @@ export const useTrainingStore = defineStore('training', {
       this.vocalMode = nextMode;
 
       if (nextMode === 'high') {
-        this.userRange = { low: 'C4', high: 'A4' };
+        this.userRange = { low: 'C4', high: 'B4' };
         return;
       }
 
-      this.userRange = { low: 'C3', high: 'A3' };
+      this.userRange = { low: 'C3', high: 'B3' };
     },
     setMicActive(active) {
       this.micActive = Boolean(active);

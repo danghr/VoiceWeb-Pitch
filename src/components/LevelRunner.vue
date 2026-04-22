@@ -146,9 +146,9 @@ function resetStepState() {
 }
 
 function mapUserRangeByAvgFreq(avgFreq) {
-  return avgFreq < noteToFreq('B3')
-    ? { low: 'C3', high: 'A3' }
-    : { low: 'C4', high: 'A4' };
+  return avgFreq < noteToFreq('A3')
+    ? { low: 'C3', high: 'B3' }
+    : { low: 'C4', high: 'B4' };
 }
 
 function randomWhiteNoteByRange(exclude = []) {
@@ -218,7 +218,12 @@ function buildRuntimeTargets(step) {
 async function replayReferenceNotes() {
   const notes = runtimeReferenceNotes.value;
   if (!notes.length) return;
-  await audioEngine.playNotes(notes, notes.length > 8 ? 0.36 : 0.52, 80);
+  await audioEngine.playNotes(
+    notes,
+    notes.length > 8 ? 0.36 : 0.52,
+    80,
+    (note) => { activePianoNote.value = note || ''; },
+  );
 }
 
 async function enterStep() {
