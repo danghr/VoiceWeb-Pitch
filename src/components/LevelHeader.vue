@@ -5,6 +5,7 @@
     </div>
 
     <div class="level-dots">
+      <span class="level-prefix">关卡：</span>
       <button
         v-for="(level, index) in levels"
         :key="level.id"
@@ -96,6 +97,14 @@ function dotClass(levelId, index) {
 .level-dots {
   display: flex;
   gap: 10px;
+  align-items: center;
+}
+
+.level-prefix {
+  font-size: 14px;
+  color: #64748B;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .level-dot {

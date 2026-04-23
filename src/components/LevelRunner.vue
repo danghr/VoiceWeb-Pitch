@@ -40,12 +40,17 @@
         :show-target="showTarget"
         :display-instruction="displayInstruction"
         :display-title="displayTitle"
+        :is-first-level="isFirstLevel"
+        :is-last-level="isLastLevel"
+        :footer-html="footerHtml"
         @toggle-recording="handleToggleRecording"
         @replay="handleReplay"
         @next="nextStep"
         @prev="prevStep"
         @randomize="handleRandomize"
         @toggle-target="handleToggleTarget"
+        @prev-level="emit('prev-level')"
+        @next-level="handleNextLevel"
       />
     </aside>
   </section>
@@ -62,9 +67,12 @@ import StepPanel from './StepPanel.vue';
 
 const props = defineProps({
   levelConfig: { type: Object, required: true },
+  isFirstLevel: { type: Boolean, default: false },
+  isLastLevel: { type: Boolean, default: false },
+  footerHtml: { type: String, default: '' },
 });
 
-const emit = defineEmits(['level-complete']);
+const emit = defineEmits(['level-complete', 'prev-level']);
 const store = useTrainingStore();
 
 const canvasRef = ref(null);
@@ -335,7 +343,7 @@ function detectAndSetRange() {
   const avg = validFreqs.reduce((s, f) => s + f, 0) / validFreqs.length;
   const range = mapUserRangeByAvgFreq(avg);
   store.setUserRange(range);
-  hintMessage.value = `舒适音域已设置为 ${range.low} - ${range.high}`;
+  hintMessage.value = `建议选择 ${range.low} - ${range.high} 音域`;
 }
 
 function nextStep() {
@@ -349,6 +357,12 @@ function nextStep() {
     currentStepIndex.value += 1;
     return;
   }
+  emit('level-complete', props.levelConfig.id);
+}
+
+function handleNextLevel() {
+  store.setMicActive(false);
+  audioEngine.stopMic();
   emit('level-complete', props.levelConfig.id);
 }
 
@@ -417,6 +431,19 @@ watch(() => props.levelConfig.id, async () => {
 
 watch(() => currentStepIndex.value, async () => {
   await enterStep();
+});
+
+// 切换音域模式时：停止录音、清空状态、重建目标
+watch(() => store.vocalMode, async () => {
+  store.setMicActive(false);
+  audioEngine.stopMic();
+  resetStepState();
+  smoothedMidi.value = null;
+  lastPianoNote = '';
+  const step = currentStep.value;
+  if (!step) return;
+  buildRuntimeTargets(step);
+  showTarget.value = !step.ui.defaultHideTarget;
 });
 
 onMounted(async () => {
@@ -502,5 +529,9 @@ onBeforeUnmount(() => {
   background: #F8FAFC;
 }
 
-.right-panel { min-height: 0; }
+.right-panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
 </style>
