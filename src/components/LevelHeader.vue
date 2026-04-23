@@ -1,8 +1,7 @@
 <template>
   <header class="level-header">
     <div class="left-group">
-      <h1>音准训练引擎</h1>
-      <p>统一引擎 + 配置化关卡</p>
+      <h1>音准训练器</h1>
     </div>
 
     <div class="level-dots">

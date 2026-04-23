@@ -35,7 +35,7 @@ const store = useTrainingStore();
 store.initLevels(levels);
 
 const currentLevel = computed(() => levels.find((level) => level.id === store.currentLevelId) || levels[0]);
-const modeLabel = computed(() => (store.vocalMode === 'high' ? '高音域（C4-A4）' : '低音域（C3-A3）'));
+const modeLabel = computed(() => (store.vocalMode === 'high' ? '高音域（C4-B4）' : '低音域（C3-B3）'));
 
 function handleSelectLevel(levelId) {
   store.setCurrentLevel(levelId);
