@@ -1,0 +1,3 @@
+[submodule "VoiceBook-Pitch"]
+	path = VoiceBook-Pitch
+	url = git@github.com:danghr/VoiceBook-Pitch.git
