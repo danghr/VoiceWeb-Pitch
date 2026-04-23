@@ -76,6 +76,9 @@ npm run dev
 
 # 生产构建
 npm run build
+
+# 部署到子目录时，指定 base 路径
+VITE_BASE=/pitch/ npm run build
 ```
 
 ## 使用建议

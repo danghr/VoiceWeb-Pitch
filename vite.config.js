@@ -21,6 +21,7 @@ function gitHash() {
 }
 
 export default defineConfig({
+  base: process.env.VITE_BASE || '/',
   plugins: [vue()],
   define: {
     __APP_VERSION__: JSON.stringify(appVersion()),
