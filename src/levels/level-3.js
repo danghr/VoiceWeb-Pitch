@@ -102,7 +102,7 @@ const level3 = {
   <li><b>A4 = 440 Hz：</b>现代音乐的国际标准音高。</li>
   <li><b>十二平均律：</b>一个八度被分为 12 个半音，每上升一个半音，频率乘以 2<sup>1/12</sup> ≈ 1.05946。每个八度的频率都是前一个八度的两倍。</li>
 </ul>
-<img src="/images/equal_temperament.png" alt="十二平均律频率分布" style="width:100%;border-radius:8px;margin:8px 0;" />`,
+<img src="${import.meta.env.BASE_URL}images/equal_temperament.png" alt="十二平均律频率分布" style="width:100%;border-radius:8px;margin:8px 0;" />`,
       audio: { enableMic: false },
       ui: { showPiano: true, showPitchCanvas: false },
       validator: { type: 'manual' },

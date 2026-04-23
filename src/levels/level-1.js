@@ -62,7 +62,7 @@ const level1 = {
 <p><b>完成标准：</b>能够正确在钢琴窗格中定位各个音名的位置。</p>
 <p><b>备注</b></p>
 <p>在真实的钢琴中，钢琴键的排列如下图所示：</p>
-<img src="/images/钢琴键与CDEFGAB.png" alt="钢琴键与音名对应关系" style="width:100%;border-radius:8px;margin:8px 0;" />
+<img src="${import.meta.env.BASE_URL}images/钢琴键与CDEFGAB.png" alt="钢琴键与音名对应关系" style="width:100%;border-radius:8px;margin:8px 0;" />
 <p>完成后点击“下一步”。</p>`,
       audio: {
         enableMic: false,
@@ -85,7 +85,7 @@ const level1 = {
   <li><b>响度：</b>由声波振幅决定，振幅越大，声音越响。</li>
   <li><b>音色：</b>由声波的谐波结构决定。不同乐器或人声即使发出相同音高和响度的音，波形形状也不同，因此听起来不同。</li>
 </ul>
-<img src="/images/声音三要素.jpg" alt="声波三要素示意" style="width:100%;border-radius:8px;margin:8px 0;" />`,
+<img src="${import.meta.env.BASE_URL}images/声音三要素.jpg" alt="声波三要素示意" style="width:100%;border-radius:8px;margin:8px 0;" />`,
       audio: { enableMic: false },
       ui: { showPiano: true, showPitchCanvas: false },
       validator: { type: 'manual' },

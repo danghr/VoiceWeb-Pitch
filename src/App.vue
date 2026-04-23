@@ -50,7 +50,7 @@ function buildFooter(filingHtml) {
 onMounted(async () => {
   let filingHtml = '';
   try {
-    const res = await fetch('/footer.html');
+    const res = await fetch(`${import.meta.env.BASE_URL}footer.html`);
     if (res.ok) {
       const text = await res.text();
       if (text.trim()) filingHtml = text;
