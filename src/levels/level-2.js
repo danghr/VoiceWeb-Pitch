@@ -14,7 +14,6 @@ const level2 = {
       ui: {
         showPiano: false,
         showPitchCanvas: true,
-        showVolumeBar: true,
       },
       validator: { type: 'manual' },
       nextStepTrigger: 'manual',
@@ -29,7 +28,6 @@ const level2 = {
       ui: {
         showPiano: false,
         showPitchCanvas: true,
-        showVolumeBar: true,
       },
       validator: { type: 'manual' },
       nextStepTrigger: 'manual',
@@ -45,7 +43,6 @@ const level2 = {
       ui: {
         showPiano: true,
         showPitchCanvas: true,
-        showVolumeBar: true,
         showReplayButton: true,
         defaultHideTarget: false,
         allowToggleTarget: false,

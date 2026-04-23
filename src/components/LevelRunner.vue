@@ -12,8 +12,6 @@
             />
             <div v-else class="piano-placeholder"></div>
           </div>
-          <!-- 占位：与 volume-box 等高，保证钢琴和画布纵向对齐 -->
-          <div v-if="currentStep.ui.showVolumeBar" class="piano-volume-spacer"></div>
         </aside>
 
         <div class="canvas-slot">
@@ -21,18 +19,13 @@
             <CanvasRenderer
               ref="canvasRef"
               :pitch-points="pitchPoints"
-              :volume-points="currentStep.ui.showVolumeBar ? volumePoints : []"
+              :volume-points="[]"
               :target-notes="visibleTargetNotes"
             />
           </div>
           <div v-else class="canvas-placeholder">当前步骤不显示音高窗格</div>
 
-          <div v-if="currentStep.ui.showVolumeBar" class="volume-box">
-            <span>实时响度</span>
-            <div class="volume-track">
-              <div class="volume-fill" :style="{ width: `${Math.min(100, lastVolume * 900)}%` }"></div>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
@@ -186,6 +179,30 @@ function transposeNote(note, semitones) {
   return midiToNote(midi + semitones);
 }
 
+// 随机邻进/隔音音程生成器
+// direction: 'up' | 'down', interval: 1 (邻进，相邻白键) | 2 (隔音，隔一个白键)
+function randomIntervalPairByRange(direction, interval, excludePair = []) {
+  const allWhite = buildNoteRange(store.userRange.low, store.userRange.high).filter(isWhiteKey);
+  if (allWhite.length < 2) return [allWhite[0] || 'C3', allWhite[1] || 'D3'];
+
+  const candidates = [];
+  for (let i = 0; i < allWhite.length; i++) {
+    const targetIdx = direction === 'up' ? i + interval : i - interval;
+    if (targetIdx >= 0 && targetIdx < allWhite.length) {
+      candidates.push([allWhite[i], allWhite[targetIdx]]);
+    }
+  }
+  if (!candidates.length) return [allWhite[0], allWhite[1]];
+
+  const excludeKey = excludePair.join(',');
+  // 尝试找一个不重复的
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const pair = candidates[Math.floor(Math.random() * candidates.length)];
+    if (pair.join(',') !== excludeKey) return pair;
+  }
+  return candidates[Math.floor(Math.random() * candidates.length)];
+}
+
 function transposeNotes(notes) {
   // 高音域模式下，将 C3 区域的硬编码音符上移一个八度
   if (store.vocalMode !== 'high') return notes;
@@ -210,6 +227,13 @@ function buildRuntimeTargets(step) {
 
   if (step.randomJumpPair) {
     const pair = randomJumpPairByRange(runtimeReferenceNotes.value);
+    runtimeReferenceNotes.value = pair;
+    runtimeTargetNotes.value = pair;
+  }
+
+  if (step.randomInterval) {
+    const { direction, interval } = step.randomInterval;
+    const pair = randomIntervalPairByRange(direction, interval, runtimeReferenceNotes.value);
     runtimeReferenceNotes.value = pair;
     runtimeTargetNotes.value = pair;
   }
@@ -452,11 +476,6 @@ onBeforeUnmount(() => {
   min-height: 0;
 }
 
-.piano-volume-spacer {
-  height: 20px;
-  flex-shrink: 0;
-}
-
 .piano-placeholder {
   width: 140px;
   height: 100%;
@@ -467,8 +486,7 @@ onBeforeUnmount(() => {
 
 .canvas-slot {
   display: grid;
-  grid-template-rows: 1fr auto;
-  gap: 10px;
+  grid-template-rows: 1fr;
   height: 100%;
 }
 
@@ -482,29 +500,6 @@ onBeforeUnmount(() => {
   display: grid;
   place-items: center;
   background: #F8FAFC;
-}
-
-.volume-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  color: #64748B;
-}
-
-.volume-track {
-  flex: 1;
-  height: 8px;
-  background: #E2E8F0;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.volume-fill {
-  height: 100%;
-  background: #F97316;
-  border-radius: 4px;
-  transition: width 0.08s;
 }
 
 .right-panel { min-height: 0; }

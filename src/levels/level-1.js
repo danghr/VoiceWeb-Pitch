@@ -15,7 +15,6 @@ const level1 = {
       ui: {
         showPiano: true,
         showPitchCanvas: true,
-        showVolumeBar: false,
       },
       validator: { type: 'manual' },
       nextStepTrigger: 'manual',
@@ -30,7 +29,6 @@ const level1 = {
       ui: {
         showPiano: false,
         showPitchCanvas: true,
-        showVolumeBar: true,
       },
       validator: { type: 'manual' },
       nextStepTrigger: 'manual',
