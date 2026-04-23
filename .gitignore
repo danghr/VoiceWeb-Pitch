@@ -440,3 +440,6 @@ $RECYCLE.BIN/
 
 # Trunk
 .trunk
+
+# Footer config (contains ICP filing info)
+public/footer.html
