@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { execSync } from 'child_process';
+import { readFileSync } from 'fs';
 
-function gitTag() {
+function appVersion() {
   try {
-    return execSync('git describe --tags --abbrev=0', { encoding: 'utf-8' }).trim();
+    const pkg = JSON.parse(readFileSync('package.json', 'utf-8'));
+    return `v${pkg.version}`;
   } catch {
     return 'dev';
   }
@@ -21,7 +23,7 @@ function gitHash() {
 export default defineConfig({
   plugins: [vue()],
   define: {
-    __APP_VERSION__: JSON.stringify(gitTag()),
+    __APP_VERSION__: JSON.stringify(appVersion()),
     __APP_BUILD__: JSON.stringify(gitHash()),
   },
 });
