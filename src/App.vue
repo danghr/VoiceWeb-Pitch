@@ -38,18 +38,27 @@ store.initLevels(levels);
 const currentLevel = computed(() => levels.find((level) => level.id === store.currentLevelId) || levels[0]);
 const currentLevelIndex = computed(() => levels.findIndex((level) => level.id === store.currentLevelId));
 
-const footerHtml = ref('<div style="text-align:center;font-size:12px;color:#94A3B8;">音准训练器</div>');
+const footerHtml = ref('');
+
+function buildFooter(filingHtml) {
+  const version = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev';
+  const build = typeof __APP_BUILD__ !== 'undefined' ? __APP_BUILD__ : '000000';
+  const versionLine = `<p>音准训练器 ${version} (Build ${build})</p>`;
+  return `<div style="text-align:center;font-size:12px;color:#94A3B8;line-height:1.8;">${versionLine}${filingHtml}</div>`;
+}
 
 onMounted(async () => {
+  let filingHtml = '';
   try {
     const res = await fetch('/footer.html');
     if (res.ok) {
       const text = await res.text();
-      if (text.trim()) footerHtml.value = text;
+      if (text.trim()) filingHtml = text;
     }
   } catch {
-    // 使用默认 footer
+    // footer.html 不存在，备案信息留空
   }
+  footerHtml.value = buildFooter(filingHtml);
 });
 
 function handleSelectLevel(levelId) {
