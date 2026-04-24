@@ -8,7 +8,16 @@ function appVersion() {
     const pkg = JSON.parse(readFileSync('package.json', 'utf-8'));
     return `v${pkg.version}`;
   } catch {
-    return 'dev';
+    return 'unknown';
+  }
+}
+
+function gitURL() {
+  try {
+    const pkg = JSON.parse(readFileSync('package.json', 'utf-8'));
+    return `v${pkg.git_url}`;
+  } catch {
+    return 'unknown';
   }
 }
 
@@ -16,7 +25,7 @@ function gitHash() {
   try {
     return execSync('git rev-parse --short=6 HEAD', { encoding: 'utf-8' }).trim();
   } catch {
-    return '000000';
+    return 'unknown';
   }
 }
 
@@ -26,5 +35,6 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(appVersion()),
     __APP_BUILD__: JSON.stringify(gitHash()),
+    __APP_GIT_URL__: JSON.stringify(gitURL()),
   },
 });

@@ -41,9 +41,10 @@ const currentLevelIndex = computed(() => levels.findIndex((level) => level.id ==
 const footerHtml = ref('');
 
 function buildFooter(filingHtml) {
-  const version = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : 'dev';
-  const build = typeof __APP_BUILD__ !== 'undefined' ? __APP_BUILD__ : '000000';
-  const versionLine = `<p>音准训练器 ${version} (Build ${build})</p>`;
+  const version = __APP_VERSION__;
+  const build = __APP_BUILD__;
+  const git_url = __APP_GIT_URL__;
+  const versionLine = `<p>音准训练器 ${version} <span style="margin:0 8px;">|</span> Build ${build} <span style="margin:0 8px;">|</span> <a href="${git_url}" target="_blank" rel="noopener" style="color:#94A3B8;text-decoration:none;">源码</a></p>`;
   return `<div style="text-align:center;font-size:12px;color:#94A3B8;line-height:1.8;">${versionLine}${filingHtml}</div>`;
 }
 
