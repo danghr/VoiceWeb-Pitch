@@ -1,7 +1,7 @@
 {
   "name": "musicweb",
   "private": true,
-  "version": "0.2.3",
+  "version": "1.0.0",
   "git_url": "https://github.com/danghr/VoiceWeb-Pitch",
   "type": "module",
   "scripts": {
