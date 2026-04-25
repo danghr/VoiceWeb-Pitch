@@ -2,7 +2,7 @@
   <div v-if="showGuard" class="guard-mask">
     <div class="guard-panel">
       <h2>请使用平板横屏或电脑访问</h2>
-      <p>当前窗口 {{ guardSize }}，本应用需要足够的可视化空间（≥ 820 × 450），请使用平板横屏或电脑访问。</p>
+      <p>当前窗口 {{ guardSize }}，本应用需要足够的可视化空间（≥ 820 × 500），请使用平板横屏或电脑访问，或将窗口调大。</p>
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@ const guardSize = ref('');
 function updateGuard() {
   const w = window.innerWidth;
   const h = window.innerHeight;
-  showGuard.value = w < 820 || h < 450;
+  showGuard.value = w < 820 || h < 500;
   guardSize.value = `${w} × ${h}`;
 }
 
