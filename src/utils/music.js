@@ -1,5 +1,11 @@
 const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
+/** 琴键与画布每个音高格子的固定高度（px）。PianoRoll / CanvasRenderer 必须共用此值以保证纵轴对齐。 */
+export const PIANO_KEY_HEIGHT = 20;
+
+/** 音高画布总高度（px）= (D5 - A2 + 1) × PIANO_KEY_HEIGHT。与 PianoRoll 总高度一致。 */
+export const PIANO_CANVAS_HEIGHT = ((5 + 1) * 12 + 2 - ((2 + 1) * 12 + 9) + 1) * PIANO_KEY_HEIGHT;
+
 export function noteToMidi(noteName) {
   const match = /^([A-G])(#?)(-?\d)$/.exec(noteName);
   if (!match) {

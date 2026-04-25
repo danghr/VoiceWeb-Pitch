@@ -23,7 +23,7 @@
               :target-notes="visibleTargetNotes"
             />
           </div>
-          <div v-else class="canvas-placeholder">当前步骤不显示音高窗格</div>
+          <div v-else class="canvas-placeholder" :style="{ height: PIANO_CANVAS_HEIGHT + 'px' }">当前步骤不显示音高窗格</div>
 
 
         </div>
@@ -61,7 +61,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import CanvasRenderer from '../core/CanvasRenderer.vue';
 import { audioEngine } from '../core/AudioEngine';
 import { useTrainingStore } from '../stores/training';
-import { buildNoteRange, freqToMidi, freqToNote, isWhiteKey, midiToFreq, midiToNote, noteToFreq, noteToMidi } from '../utils/music';
+import { buildNoteRange, freqToMidi, freqToNote, isWhiteKey, midiToFreq, midiToNote, noteToFreq, noteToMidi, PIANO_CANVAS_HEIGHT } from '../utils/music';
 import PianoRoll from './PianoRoll.vue';
 import StepPanel from './StepPanel.vue';
 
@@ -475,24 +475,22 @@ onBeforeUnmount(() => {
   background: #FFFFFF;
   padding: 12px;
   min-height: 0;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
 
 .left-panel .visual-row {
   flex: 1;
-  min-height: 0;
 }
 
 .visual-row {
   display: grid;
   grid-template-columns: 140px minmax(0, 1fr);
   gap: 10px;
-  height: 100%;
 }
 
 .piano-slot {
-  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -500,12 +498,11 @@ onBeforeUnmount(() => {
 
 .piano-main {
   flex: 1;
-  min-height: 0;
 }
 
 .piano-placeholder {
   width: 140px;
-  height: 100%;
+  min-height: 600px;
   border: 1px dashed #CBD5E1;
   border-radius: 12px;
   background: #F8FAFC;
@@ -513,14 +510,11 @@ onBeforeUnmount(() => {
 
 .canvas-slot {
   display: grid;
-  grid-template-rows: 1fr;
-  height: 100%;
 }
 
-.canvas-wrap { min-height: 0; }
+.canvas-wrap { }
 
 .canvas-placeholder {
-  height: 100%;
   border: 1px dashed #CBD5E1;
   border-radius: 12px;
   color: #94A3B8;

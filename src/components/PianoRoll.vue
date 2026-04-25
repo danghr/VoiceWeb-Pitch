@@ -17,7 +17,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { buildNoteRange, isWhiteKey } from '../utils/music';
+import { buildNoteRange, isWhiteKey, PIANO_KEY_HEIGHT } from '../utils/music';
 
 const props = defineProps({
   highlightNotes: {
@@ -39,7 +39,7 @@ defineEmits(['note-click']);
 const fullRange = computed(() => buildNoteRange('A2', 'D5'));
 const displayNotes = computed(() => [...fullRange.value].reverse());
 const layerStyle = computed(() => ({
-  gridTemplateRows: `repeat(${displayNotes.value.length}, minmax(0, 1fr))`,
+  gridTemplateRows: `repeat(${displayNotes.value.length}, ${PIANO_KEY_HEIGHT}px)`,
 }));
 
 function keyClass(note) {
@@ -55,7 +55,6 @@ function keyClass(note) {
 <style scoped>
 .piano-roll {
   width: 140px;
-  height: 100%;
   position: relative;
   background: #F8FAFC;
   border: 1px solid #E2E8F0;
@@ -65,11 +64,10 @@ function keyClass(note) {
 
 .key-layer {
   display: grid;
-  height: 100%;
 }
 
 .piano-key {
-  min-height: 0;
+  height: 20px;
   border: none;
   box-shadow: inset 0 -1px #E5E7EB;
   position: relative;

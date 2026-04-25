@@ -2,7 +2,7 @@
   <div v-if="showGuard" class="guard-mask">
     <div class="guard-panel">
       <h2>请使用平板横屏或电脑访问</h2>
-      <p>本应用需要足够的可视化空间，请使用平板横屏或电脑访问。</p>
+      <p>当前窗口 {{ guardSize }}，本应用需要足够的可视化空间（≥ 820 × 450），请使用平板横屏或电脑访问。</p>
     </div>
   </div>
 </template>
@@ -11,9 +11,13 @@
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 
 const showGuard = ref(false);
+const guardSize = ref('');
 
 function updateGuard() {
-  showGuard.value = window.innerWidth < 1024 || window.innerHeight < 768;
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  showGuard.value = w < 820 || h < 450;
+  guardSize.value = `${w} × ${h}`;
 }
 
 onMounted(() => {

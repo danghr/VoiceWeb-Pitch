@@ -1,12 +1,12 @@
 <template>
-  <div class="canvas-shell">
+  <div class="canvas-shell" :style="{ height: CANVAS_HEIGHT_PX + 'px' }">
     <canvas ref="canvasRef" class="pitch-canvas"></canvas>
   </div>
 </template>
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue';
-import { freqToMidi, noteToFreq, noteToMidi } from '../utils/music';
+import { freqToMidi, noteToFreq, noteToMidi, PIANO_CANVAS_HEIGHT } from '../utils/music';
 
 const props = defineProps({
   pitchPoints: {
@@ -31,6 +31,7 @@ const MAX_FREQ = noteToFreq('D5');
 const MIN_MIDI = noteToMidi('A2');
 const MAX_MIDI = noteToMidi('D5');
 const NOTE_COUNT = MAX_MIDI - MIN_MIDI + 1;
+const CANVAS_HEIGHT_PX = PIANO_CANVAS_HEIGHT;
 const WINDOW_MS = 15000;
 
 function mapTimeToX(time, windowStart, width) {
@@ -229,7 +230,6 @@ watch(
 <style scoped>
 .canvas-shell {
   width: 100%;
-  height: 100%;
   border: 1px solid #E5E7EB;
   border-radius: 16px;
   overflow: hidden;
