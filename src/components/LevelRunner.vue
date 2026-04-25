@@ -410,7 +410,13 @@ async function handleToggleRecording() {
   try {
     await audioEngine.startMic();
   } catch (error) {
-    hintMessage.value = '麦克风启动失败，请检查浏览器权限设置。';
+    if (error.name === 'NotAllowedError') {
+      hintMessage.value = '麦克风权限被拒绝，请在浏览器设置中允许访问麦克风。';
+    } else if (error.name === 'NotFoundError') {
+      hintMessage.value = '未检测到麦克风设备，请确认麦克风已连接。';
+    } else {
+      hintMessage.value = '麦克风启动失败，请检查浏览器权限设置。';
+    }
     store.setMicActive(false);
   }
 }

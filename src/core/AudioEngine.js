@@ -36,11 +36,21 @@ class AudioEngine {
         },
       }).toDestination();
       this.initialized = true;
+      // Windows Chrome/Edge 上 Tone.start() 后 AudioContext 可能仍为 suspended，
+      // 显式 resume 确保后续麦克风 analyser 节点能正常工作。
+      if (this.audioContext.state === 'suspended') {
+        await this.audioContext.resume();
+      }
       return;
     }
 
     if (Tone.context.state !== 'running') {
       await Tone.start();
+    }
+
+    // 确保 AudioContext 真的在 running 状态
+    if (this.audioContext && this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
     }
   }
 
@@ -75,6 +85,12 @@ class AudioEngine {
 
     this.frameBuffer = new Float32Array(this.analyserNode.fftSize);
     this.sourceNode.connect(this.analyserNode);
+
+    // Windows Chrome/Edge 上即使用户已授权麦克风，AudioContext 仍可能被挂起，
+    // 导致 analyser 节点无数据输出。连接麦克风后显式 resume。
+    if (this.audioContext.state === 'suspended') {
+      await this.audioContext.resume();
+    }
 
     this.micRunning = true;
     this.processMicFrame();
